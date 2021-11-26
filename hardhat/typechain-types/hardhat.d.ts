@@ -21,6 +21,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Pausable__factory>;
     getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
       name: "ERC721",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
@@ -72,6 +76,22 @@ declare module "hardhat/types/runtime" {
       name: "MyBiasNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyBiasNFT__factory>;
+    getContractFactory(
+      name: "MyBiasSTACYFund",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyBiasSTACYFund__factory>;
+    getContractFactory(
+      name: "ERC721BurnableAndPausable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721BurnableAndPausable__factory>;
+    getContractFactory(
+      name: "ERC721URIStorage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721URIStorage__factory>;
+    getContractFactory(
+      name: "MyBiasSTACYNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MyBiasSTACYNFT__factory>;
 
     getContractAt(
       name: "Ownable",
@@ -83,6 +103,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Pausable>;
+    getContractAt(
+      name: "IERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
     getContractAt(
       name: "ERC721",
       address: string,
@@ -148,6 +173,26 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.MyBiasNFT>;
+    getContractAt(
+      name: "MyBiasSTACYFund",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyBiasSTACYFund>;
+    getContractAt(
+      name: "ERC721BurnableAndPausable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721BurnableAndPausable>;
+    getContractAt(
+      name: "ERC721URIStorage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721URIStorage>;
+    getContractAt(
+      name: "MyBiasSTACYNFT",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MyBiasSTACYNFT>;
 
     // default types
     getContractFactory(

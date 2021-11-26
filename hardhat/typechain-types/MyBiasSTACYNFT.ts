@@ -18,7 +18,7 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface MyBiasNFTInterface extends utils.Interface {
+export interface MyBiasSTACYNFTInterface extends utils.Interface {
   functions: {
     "_price()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -282,16 +282,36 @@ export interface MyBiasNFTInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "Mint(address,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Paused(address)": EventFragment;
+    "PreSale(uint256,uint256)": EventFragment;
+    "PreSaleDisabled()": EventFragment;
+    "PreSaleEnabled()": EventFragment;
+    "PubSaleDisabled()": EventFragment;
+    "PublicSale(uint256,uint256)": EventFragment;
+    "PublicSaleEnabled()": EventFragment;
+    "SaleKilled()": EventFragment;
+    "SetPrice(uint256,uint256)": EventFragment;
+    "SetSignerAddress(address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
     "Unpaused(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Mint"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Paused"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PreSale"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PreSaleDisabled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PreSaleEnabled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PubSaleDisabled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PublicSale"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "PublicSaleEnabled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SaleKilled"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SetPrice"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "SetSignerAddress"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Unpaused"): EventFragment;
 }
@@ -310,6 +330,13 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
+export type MintEvent = TypedEvent<
+  [string, BigNumber],
+  { to: string; tokenId: BigNumber }
+>;
+
+export type MintEventFilter = TypedEventFilter<MintEvent>;
+
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
   { previousOwner: string; newOwner: string }
@@ -322,6 +349,56 @@ export type PausedEvent = TypedEvent<[string], { account: string }>;
 
 export type PausedEventFilter = TypedEventFilter<PausedEvent>;
 
+export type PreSaleEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  { amount: BigNumber; totalPrice: BigNumber }
+>;
+
+export type PreSaleEventFilter = TypedEventFilter<PreSaleEvent>;
+
+export type PreSaleDisabledEvent = TypedEvent<[], {}>;
+
+export type PreSaleDisabledEventFilter = TypedEventFilter<PreSaleDisabledEvent>;
+
+export type PreSaleEnabledEvent = TypedEvent<[], {}>;
+
+export type PreSaleEnabledEventFilter = TypedEventFilter<PreSaleEnabledEvent>;
+
+export type PubSaleDisabledEvent = TypedEvent<[], {}>;
+
+export type PubSaleDisabledEventFilter = TypedEventFilter<PubSaleDisabledEvent>;
+
+export type PublicSaleEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  { amount: BigNumber; totalPrice: BigNumber }
+>;
+
+export type PublicSaleEventFilter = TypedEventFilter<PublicSaleEvent>;
+
+export type PublicSaleEnabledEvent = TypedEvent<[], {}>;
+
+export type PublicSaleEnabledEventFilter =
+  TypedEventFilter<PublicSaleEnabledEvent>;
+
+export type SaleKilledEvent = TypedEvent<[], {}>;
+
+export type SaleKilledEventFilter = TypedEventFilter<SaleKilledEvent>;
+
+export type SetPriceEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  { oldPrice: BigNumber; price: BigNumber }
+>;
+
+export type SetPriceEventFilter = TypedEventFilter<SetPriceEvent>;
+
+export type SetSignerAddressEvent = TypedEvent<
+  [string],
+  { signerAddress: string }
+>;
+
+export type SetSignerAddressEventFilter =
+  TypedEventFilter<SetSignerAddressEvent>;
+
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
   { from: string; to: string; tokenId: BigNumber }
@@ -333,12 +410,12 @@ export type UnpausedEvent = TypedEvent<[string], { account: string }>;
 
 export type UnpausedEventFilter = TypedEventFilter<UnpausedEvent>;
 
-export interface MyBiasNFT extends BaseContract {
+export interface MyBiasSTACYNFT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: MyBiasNFTInterface;
+  interface: MyBiasSTACYNFTInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -841,6 +918,12 @@ export interface MyBiasNFT extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
+    "Mint(address,uint256)"(
+      to?: null,
+      tokenId?: BigNumberish | null
+    ): MintEventFilter;
+    Mint(to?: null, tokenId?: BigNumberish | null): MintEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -852,6 +935,44 @@ export interface MyBiasNFT extends BaseContract {
 
     "Paused(address)"(account?: null): PausedEventFilter;
     Paused(account?: null): PausedEventFilter;
+
+    "PreSale(uint256,uint256)"(
+      amount?: null,
+      totalPrice?: null
+    ): PreSaleEventFilter;
+    PreSale(amount?: null, totalPrice?: null): PreSaleEventFilter;
+
+    "PreSaleDisabled()"(): PreSaleDisabledEventFilter;
+    PreSaleDisabled(): PreSaleDisabledEventFilter;
+
+    "PreSaleEnabled()"(): PreSaleEnabledEventFilter;
+    PreSaleEnabled(): PreSaleEnabledEventFilter;
+
+    "PubSaleDisabled()"(): PubSaleDisabledEventFilter;
+    PubSaleDisabled(): PubSaleDisabledEventFilter;
+
+    "PublicSale(uint256,uint256)"(
+      amount?: null,
+      totalPrice?: null
+    ): PublicSaleEventFilter;
+    PublicSale(amount?: null, totalPrice?: null): PublicSaleEventFilter;
+
+    "PublicSaleEnabled()"(): PublicSaleEnabledEventFilter;
+    PublicSaleEnabled(): PublicSaleEnabledEventFilter;
+
+    "SaleKilled()"(): SaleKilledEventFilter;
+    SaleKilled(): SaleKilledEventFilter;
+
+    "SetPrice(uint256,uint256)"(
+      oldPrice?: null,
+      price?: null
+    ): SetPriceEventFilter;
+    SetPrice(oldPrice?: null, price?: null): SetPriceEventFilter;
+
+    "SetSignerAddress(address)"(
+      signerAddress?: null
+    ): SetSignerAddressEventFilter;
+    SetSignerAddress(signerAddress?: null): SetSignerAddressEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,

@@ -111,7 +111,7 @@ abstract contract ERC721URIStorage is
     }
 }
 
-contract MyBiasNFT is ERC721URIStorage, Ownable {
+contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
     address private _signerAddress;
     uint256 public currentTokenIndex = 0;
     uint256 public _price = 0.05 ether;

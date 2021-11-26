@@ -3,6 +3,7 @@
 /* eslint-disable */
 export type { Ownable } from "./Ownable";
 export type { Pausable } from "./Pausable";
+export type { IERC20 } from "./IERC20";
 export type { ERC721 } from "./ERC721";
 export type { ERC721Burnable } from "./ERC721Burnable";
 export type { ERC721Enumerable } from "./ERC721Enumerable";
@@ -16,9 +17,12 @@ export type { IERC165 } from "./IERC165";
 export type { ERC721BurnableAndPausable } from "./ERC721BurnableAndPausable";
 export type { ERC721URIStorage } from "./ERC721URIStorage";
 export type { MyBiasNFT } from "./MyBiasNFT";
+export type { MyBiasSTACYFund } from "./MyBiasSTACYFund";
+export type { MyBiasSTACYNFT } from "./MyBiasSTACYNFT";
 
 export { Ownable__factory } from "./factories/Ownable__factory";
 export { Pausable__factory } from "./factories/Pausable__factory";
+export { IERC20__factory } from "./factories/IERC20__factory";
 export { ERC721__factory } from "./factories/ERC721__factory";
 export { ERC721Burnable__factory } from "./factories/ERC721Burnable__factory";
 export { ERC721Enumerable__factory } from "./factories/ERC721Enumerable__factory";
@@ -32,3 +36,5 @@ export { IERC165__factory } from "./factories/IERC165__factory";
 export { ERC721BurnableAndPausable__factory } from "./factories/ERC721BurnableAndPausable__factory";
 export { ERC721URIStorage__factory } from "./factories/ERC721URIStorage__factory";
 export { MyBiasNFT__factory } from "./factories/MyBiasNFT__factory";
+export { MyBiasSTACYFund__factory } from "./factories/MyBiasSTACYFund__factory";
+export { MyBiasSTACYNFT__factory } from "./factories/MyBiasSTACYNFT__factory";

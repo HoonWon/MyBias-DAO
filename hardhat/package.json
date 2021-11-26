@@ -5,6 +5,7 @@
   "scripts": {
     "prettier": "prettier --write './**/*.sol'",
     "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.ts --network mumbai",
     "test": "NODE_OPTIONS='--max-old-space-size=4096' npx hardhat test",
     "coverage": "NODE_OPTIONS='--max-old-space-size=4096' npx hardhat coverage"
   },
