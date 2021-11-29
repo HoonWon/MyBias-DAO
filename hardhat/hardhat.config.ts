@@ -5,6 +5,9 @@ import '@typechain/hardhat';
 import 'solidity-coverage';
 import 'hardhat-spdx-license-identifier';
 import '@typechain/ethers-v5';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const config: HardhatUserConfig = {
   solidity: {

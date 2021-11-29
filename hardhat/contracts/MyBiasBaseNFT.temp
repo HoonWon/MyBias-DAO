@@ -111,15 +111,16 @@ abstract contract ERC721URIStorage is
     }
 }
 
-contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
+contract MyBiasBaseNFT is ERC721URIStorage, Ownable {
     address private _signerAddress;
     uint256 public currentTokenIndex = 0;
     uint256 public _price = 0.05 ether;
     uint256 public maxNum = 3;
     uint256 public maxBuyNum = 30;
     bool public isSaleKilled = false;
-    bool public isPublicSaleEnable = false;
-    bool public isPreSaleEnable = false;
+    bool public isPublicSaleEnabled = false;
+    bool public isPreSaleEnabled = false;
+    bool public isInitialized = false;
 
     event SaleKilled();
     event Mint(address to, uint256 indexed tokenId);
@@ -132,8 +133,22 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
     event PubSaleDisabled();
     event SetPrice(uint256 oldPrice, uint256 price);
 
-    constructor(address signerAddress) ERC721("MyBiasNFT", "MBN") {
+    constructor() ERC721("base", "base") {}
+
+    function init(
+        address ownerAddress,
+        string memory name,
+        string memory symbol,
+        address signerAddress
+    ) external {
+        require(!isInitialized, "already initialized");
+
+        transferOwnership(ownerAddress);
+
+        _name = name;
+        _symbol = symbol;
         _signerAddress = signerAddress;
+        isInitialized = true;
     }
 
     function pause() external onlyOwner {
@@ -146,8 +161,8 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
 
     function _killSale() internal {
         isSaleKilled = true;
-        isPreSaleEnable = false;
-        isPublicSaleEnable = false;
+        isPreSaleEnabled = false;
+        isPublicSaleEnabled = false;
 
         emit SaleKilled();
     }
@@ -199,6 +214,7 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
     function preSale(bytes memory sig, uint256 amount) external payable {
         require(!isSaleKilled, "preSale: sale is killed");
         require(amount <= maxBuyNum, "preSale: you can't buy too many at once");
+        require(isPreSaleEnabled, "preSale is not enabled");
         require(msg.value >= _price * amount, "preSale: insufficient balance");
         require(msg.value == _price * amount, "preSale: overpaid");
         require(amount != 0, "preSale: amount should not be zero");
@@ -219,7 +235,7 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
             amount <= maxBuyNum,
             "publicSale: you can't buy too many at once"
         );
-        require(isPublicSaleEnable, "publicSale is not enabled");
+        require(isPublicSaleEnabled, "publicSale is not enabled");
         require(
             msg.value >= _price * amount,
             "publicSale: insufficient balance"
@@ -238,18 +254,21 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
 
     function enablePreSale() external onlyOwner {
         require(!isSaleKilled, "enablePreSale: sale is killed");
-        require(!isPreSaleEnable, "enablePreSale: preSale is already enabled");
+        require(!isPreSaleEnabled, "enablePreSale: preSale is already enabled");
 
-        isPreSaleEnable = true;
+        isPreSaleEnabled = true;
 
         emit PreSaleEnabled();
     }
 
     function disablePreSale() external onlyOwner {
         require(!isSaleKilled, "disablePreSale: sale is killed");
-        require(isPreSaleEnable, "disablePreSale: preSale is already disabled");
+        require(
+            isPreSaleEnabled,
+            "disablePreSale: preSale is already disabled"
+        );
 
-        isPreSaleEnable = false;
+        isPreSaleEnabled = false;
 
         emit PreSaleDisabled();
     }
@@ -257,11 +276,11 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
     function enablePublicSale() external onlyOwner {
         require(!isSaleKilled, "enablePublicSale: sale is killed");
         require(
-            !isPublicSaleEnable,
+            !isPublicSaleEnabled,
             "enablePublicSale: publicSale is already enabled"
         );
 
-        isPublicSaleEnable = true;
+        isPublicSaleEnabled = true;
 
         emit PublicSaleEnabled();
     }
@@ -269,11 +288,11 @@ contract MyBiasSTACYNFT is ERC721URIStorage, Ownable {
     function disablePublicSale() external onlyOwner {
         require(!isSaleKilled, "disablePublicSale: sale is killed");
         require(
-            isPublicSaleEnable,
+            isPublicSaleEnabled,
             "disablePublicSale: publicSale is already disabled"
         );
 
-        isPublicSaleEnable = false;
+        isPublicSaleEnabled = false;
 
         emit PubSaleDisabled();
     }

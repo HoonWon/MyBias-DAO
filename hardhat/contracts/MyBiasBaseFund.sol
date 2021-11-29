@@ -1,11 +1,13 @@
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "./Ownable.sol";
+import "./IERC20.sol";
 
-contract MyBiasSTACYFund is Ownable {
+contract MyBiasBaseFund is Ownable {
     address payable public _withdrawalAddress;
     IERC20 public _WETH;
+    bool public isInitialized = false;
+    string public name;
 
     event WithdrawMatic(uint256 amount, address to);
     event DepositMatic(uint256 amount);
@@ -13,9 +15,20 @@ contract MyBiasSTACYFund is Ownable {
     event WithdrawAllWETH(uint256 amount, address to);
     event DepositWETH(uint256 amount);
 
-    constructor(address payable withdrawalAddress, IERC20 weth) {
+    function init(
+        address ownerAddress,
+        string memory _name,
+        IERC20 weth,
+        address payable withdrawalAddress
+    ) external {
+        require(!isInitialized, "already initialized");
+
+        _transferOwnership(ownerAddress);
+
+        name = _name;
         _withdrawalAddress = withdrawalAddress;
         _WETH = weth;
+        isInitialized = true;
     }
 
     function getMaticBalance() external view returns (uint256) {
