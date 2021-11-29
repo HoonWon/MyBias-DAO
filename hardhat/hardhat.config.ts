@@ -17,6 +17,10 @@ const config: HardhatUserConfig = {
     version: '0.8.0',
   },
   networks: {
+    ropsten: {
+      url: 'https://eth-ropsten.alchemyapi.io/v2/nvIrvQgAVNIFUyOyBMvCFUjYfANg160r',
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
     mumbai: {
       url: 'https://polygon-mumbai.g.alchemy.com/v2/ADSruID4vzTM1QYhd4JKZBXwNp_XoJR-',
       accounts: [`${process.env.PRIVATE_KEY}`],
