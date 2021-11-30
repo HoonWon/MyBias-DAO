@@ -1,8 +1,8 @@
 pragma solidity ^0.8.0;
 
-import "./IMyBiasBaseNFT.sol";
-import "./CloneFactory.sol";
-import "./Ownable.sol";
+import "./interface/IMyBiasBaseNFT.sol";
+import "./library/CloneFactory.sol";
+import "./library/Ownable.sol";
 
 contract MyBiasNFTFactory is Ownable, CloneFactory {
     address public libraryAddress;

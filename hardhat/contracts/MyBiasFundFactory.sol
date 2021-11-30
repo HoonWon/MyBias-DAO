@@ -1,9 +1,9 @@
 pragma solidity ^0.8.0;
 
-import "./IMyBiasBaseFund.sol";
-import "./CloneFactory.sol";
-import "./IERC20.sol";
-import "./Ownable.sol";
+import "./interface/IERC20.sol";
+import "./interface/IMyBiasBaseFund.sol";
+import "./library/CloneFactory.sol";
+import "./library/Ownable.sol";
 
 contract MyBiasFundFactory is Ownable, CloneFactory {
     address public libraryAddress;

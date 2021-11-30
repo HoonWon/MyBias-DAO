@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "./Ownable.sol";
+import "./library/Ownable.sol";
 
 /**
  * @dev Interface of the ERC165 standard, as defined in the

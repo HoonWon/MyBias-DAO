@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 
-import "./Ownable.sol";
-import "./IERC20.sol";
+import "./interface/IERC20.sol";
+import "./library/Ownable.sol";
 
 contract MyBiasBaseFund is Ownable {
     address payable public _withdrawalAddress;
