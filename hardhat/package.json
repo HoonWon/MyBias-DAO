@@ -5,11 +5,11 @@
   "scripts": {
     "prettier": "prettier --write './**/*.sol'",
     "compile": "npx hardhat compile",
-    "deploy": "npx hardhat run scripts/deploy.ts --network mumbai",
-    "deploy:test": "npx hardhat run scripts/deploy.ts --network ropsten",
-    "playground": "npx hardhat run scripts/playground.ts --network ropsten",
-    "clone": "npx hardhat run scripts/clone.ts --network ropsten",
-    "test": "NODE_OPTIONS='--max-old-space-size=4096' npx hardhat test",
+    "deploy": "npx hardhat run scripts/deploy.ts --network polygon",
+    "deploy:test": "npx hardhat run scripts/deploy.ts --network hardhat",
+    "playground": "npx hardhat run scripts/playground.ts --network hardhat",
+    "clone": "npx hardhat run scripts/clone.ts --network polygon",
+    "clone:test": "npx hardhat run scripts/clone.ts --network hardhat",
     "coverage": "NODE_OPTIONS='--max-old-space-size=4096' npx hardhat coverage"
   },
   "dependencies": {

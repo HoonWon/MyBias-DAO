@@ -24,11 +24,14 @@ const config: HardhatUserConfig = {
       url: 'https://eth-ropsten.alchemyapi.io/v2/nvIrvQgAVNIFUyOyBMvCFUjYfANg160r',
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
-    mumbai: {
-      url: 'https://polygon-mumbai.g.alchemy.com/v2/ADSruID4vzTM1QYhd4JKZBXwNp_XoJR-',
+    polygon: {
+      url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
     hardhat: {
+      forking: {
+        url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
+      },
       gas: 10000000,
       accounts: {
         accountsBalance: '1000000000000000000000000',
