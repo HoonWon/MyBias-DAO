@@ -1,6 +1,7 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.2;
 
 import "./IERC20.sol";
+import "./IMyBiasBaseGovernanceToken.sol";
 
 interface IMyBiasBaseFund {
     function _WETH() external view returns (address);
@@ -16,10 +17,13 @@ interface IMyBiasBaseFund {
     function getWETHBalance() external view returns (uint256);
 
     function init(
+        IMyBiasBaseGovernanceToken _token,
         address ownerAddress,
-        string memory _name,
-        IERC20 weth,
-        address withdrawalAddress
+        string memory _target,
+        uint256 _votingDelay,
+        uint256 _votingPeriod,
+        uint256 _proposalThreshold,
+        address payable strategy
     ) external;
 
     function isInitialized() external view returns (bool);

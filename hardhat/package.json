@@ -8,19 +8,23 @@
     "deploy": "npx hardhat run scripts/deploy.ts --network polygon",
     "deploy:test": "npx hardhat run scripts/deploy.ts --network hardhat",
     "playground": "npx hardhat run scripts/playground.ts --network hardhat",
+    "playground:test": "npx hardhat run scripts/playground.ts --network polygonTest",
     "clone": "npx hardhat run scripts/clone.ts --network polygon",
     "clone:test": "npx hardhat run scripts/clone.ts --network hardhat",
-    "coverage": "NODE_OPTIONS='--max-old-space-size=4096' npx hardhat coverage"
+    "coverage": "NODE_OPTIONS='--max-old-space-size=4096' npx hardhat coverage",
+    "start": "npm run playground",
+    "server": "npx hardhat run scripts/server.ts --network hardhat"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-etherscan": "^2.1.7",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@openzeppelin/contracts": "^4.3.3",
+    "@openzeppelin/contracts": "^4.4.0",
     "@optionality.io/clone-factory": "^0.2.1",
     "@typechain/ethers-v5": "^8.0.3",
     "@typechain/hardhat": "^3.0.0",
     "dotenv": "^10.0.0",
+    "express": "^4.17.1",
     "hardhat": "^2.6.8",
     "hardhat-spdx-license-identifier": "^2.0.3",
     "lodash": "^4.17.21",
@@ -28,6 +32,7 @@
     "ts-node": "^10.4.0"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/lodash": "^4.14.177",
     "@types/node": "^16.11.9",
     "prettier": "^2.4.1",

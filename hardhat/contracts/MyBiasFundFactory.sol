@@ -1,18 +1,25 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.2;
 
 import "./interface/IERC20.sol";
 import "./interface/IMyBiasBaseFund.sol";
+import "./interface/IMyBiasBaseGovernanceToken.sol";
 import "./library/CloneFactory.sol";
 import "./library/Ownable.sol";
 
 contract MyBiasFundFactory is Ownable, CloneFactory {
     address public libraryAddress;
+    address public latestCreatedFund;
 
-    event MyBiasFundCreated(
-        address newThingAddress,
-        string name,
-        IERC20 weth,
-        address payable withdrwalAddress
+    event MyBiasFundCreated(address newThingAddress);
+
+    event MyBiasFundInitialized(
+        address _token,
+        address ownerAddress,
+        string _target,
+        uint256 _votingDelay,
+        uint256 _votingPeriod,
+        uint256 _proposalThreshold,
+        address initialStrategy
     );
 
     constructor(address ownerAddress, address targetAddress) {
@@ -20,29 +27,42 @@ contract MyBiasFundFactory is Ownable, CloneFactory {
         libraryAddress = targetAddress;
     }
 
-    function createFund(
-        address ownerAddress,
-        string memory name,
-        IERC20 weth,
-        address payable withdrawalAddress
-    ) external onlyOwner returns (address) {
-        require(bytes(name).length != 0, "name should not be empty");
-        require(address(weth) != address(0), "weth should not be zeroAddress");
-        require(
-            withdrawalAddress != address(0),
-            "withdrawalAddress should not be zeroAddress"
-        );
-
+    function createFund() external onlyOwner returns (address) {
         address clone = createClone(libraryAddress);
-        IMyBiasBaseFund(payable(clone)).init(
-            ownerAddress,
-            name,
-            weth,
-            withdrawalAddress
-        );
+        latestCreatedFund = clone;
 
-        emit MyBiasFundCreated(clone, name, weth, withdrawalAddress);
+        emit MyBiasFundCreated(clone);
 
         return clone;
+    }
+
+    function initFund(
+        IMyBiasBaseGovernanceToken _token,
+        address ownerAddress,
+        string memory _target,
+        uint256 _votingDelay,
+        uint256 _votingPeriod,
+        uint256 _proposalThreshold,
+        address payable initialStrategy
+    ) external onlyOwner returns (address) {
+        IMyBiasBaseFund(payable(latestCreatedFund)).init(
+            _token,
+            ownerAddress,
+            _target,
+            _votingDelay,
+            _votingPeriod,
+            _proposalThreshold,
+            initialStrategy
+        );
+
+        emit MyBiasFundInitialized(
+            address(_token),
+            ownerAddress,
+            _target,
+            _votingDelay,
+            _votingPeriod,
+            _proposalThreshold,
+            initialStrategy
+        );
     }
 }

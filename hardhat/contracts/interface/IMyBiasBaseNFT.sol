@@ -1,8 +1,9 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.2;
+
+import "./IERC20.sol";
+import "./IMyBiasBaseGovernanceToken.sol";
 
 interface IMyBiasBaseNFT {
-    function _price() external view returns (uint256);
-
     function approve(address to, uint256 tokenId) external;
 
     function balanceOf(address owner) external view returns (uint256);
@@ -23,9 +24,13 @@ interface IMyBiasBaseNFT {
 
     function init(
         address ownerAddress,
-        string memory name,
-        string memory symbol,
-        address signerAddress
+        string memory _target,
+        IMyBiasBaseGovernanceToken _governanceToken,
+        address payable _fundContract,
+        address signerAddress,
+        uint256 price,
+        uint256 _maxNum,
+        uint256 _maxBuyNum
     ) external;
 
     function isApprovedForAll(address owner, address operator)

@@ -17,7 +17,7 @@ const config: HardhatUserConfig = {
         runs: 200,
       },
     },
-    version: '0.8.0',
+    version: '0.8.2',
   },
   networks: {
     ropsten: {
@@ -28,8 +28,13 @@ const config: HardhatUserConfig = {
       url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
+    polygonTest: {
+      url: 'https://polygon-mumbai.g.alchemy.com/v2/ADSruID4vzTM1QYhd4JKZBXwNp_XoJR-',
+      accounts: [`${process.env.PRIVATE_KEY}`],
+    },
     hardhat: {
       forking: {
+        blockNumber: 22267118,
         url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
       },
       gas: 10000000,

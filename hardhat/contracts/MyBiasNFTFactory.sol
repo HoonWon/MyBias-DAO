@@ -1,17 +1,26 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.2;
 
 import "./interface/IMyBiasBaseNFT.sol";
 import "./library/CloneFactory.sol";
 import "./library/Ownable.sol";
+import "./interface/IERC20.sol";
+import "./interface/IMyBiasBaseGovernanceToken.sol";
 
 contract MyBiasNFTFactory is Ownable, CloneFactory {
     address public libraryAddress;
+    address public latestCreatedNFT;
 
-    event MyBiasNFTCreated(
-        address newThingAddress,
-        string name,
-        string symbol,
-        address signerAddress
+    event MyBiasNFTCreated(address newThingAddress);
+
+    event MyBiasNFTInitialized(
+        address ownerAddress,
+        string target,
+        address governanceToken,
+        address payable fundContract,
+        address signerAddress,
+        uint256 price,
+        uint256 maxNum,
+        uint256 maxBuyNum
     );
 
     constructor(address ownerAddress, address targetAddress) {
@@ -19,24 +28,45 @@ contract MyBiasNFTFactory is Ownable, CloneFactory {
         libraryAddress = targetAddress;
     }
 
-    function createNFT(
-        address ownerAddress,
-        string memory name,
-        string memory symbol,
-        address signerAddress
-    ) external onlyOwner returns (address) {
-        require(bytes(name).length != 0, "name should not be empty");
-        require(bytes(symbol).length != 0, "symbol should not be empty");
-        require(
-            signerAddress != address(0),
-            "signerAddress should not be zeroAddress"
-        );
-
+    function createNFT() external onlyOwner returns (address) {
         address clone = createClone(libraryAddress);
-        IMyBiasBaseNFT(clone).init(ownerAddress, name, symbol, signerAddress);
+        latestCreatedNFT = clone;
 
-        emit MyBiasNFTCreated(clone, name, symbol, signerAddress);
+        emit MyBiasNFTCreated(clone);
 
         return clone;
+    }
+
+    function initNFT(
+        address ownerAddress,
+        string memory target,
+        IMyBiasBaseGovernanceToken governanceToken,
+        address payable fundContract,
+        address signerAddress,
+        uint256 price,
+        uint256 maxNum,
+        uint256 maxBuyNum
+    ) external onlyOwner {
+        IMyBiasBaseNFT(latestCreatedNFT).init(
+            ownerAddress,
+            target,
+            governanceToken,
+            fundContract,
+            signerAddress,
+            price,
+            maxNum,
+            maxBuyNum
+        );
+
+        emit MyBiasNFTInitialized(
+            ownerAddress,
+            target,
+            address(governanceToken),
+            fundContract,
+            signerAddress,
+            price,
+            maxNum,
+            maxBuyNum
+        );
     }
 }
