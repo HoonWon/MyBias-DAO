@@ -20,10 +20,6 @@ const config: HardhatUserConfig = {
     version: '0.8.2',
   },
   networks: {
-    ropsten: {
-      url: 'https://eth-ropsten.alchemyapi.io/v2/nvIrvQgAVNIFUyOyBMvCFUjYfANg160r',
-      accounts: [`${process.env.PRIVATE_KEY}`],
-    },
     polygon: {
       url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
       accounts: [`${process.env.PRIVATE_KEY}`],
