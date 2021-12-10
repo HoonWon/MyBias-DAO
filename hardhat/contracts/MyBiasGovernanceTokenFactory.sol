@@ -7,6 +7,7 @@ import "./library/Ownable.sol";
 contract MyBiasGovernanceTokenFactory is Ownable, CloneFactory {
     address public libraryAddress;
     address public latestCreatedGovernanceToken;
+    address[] public created;
 
     event MyBiasGovernanceTokenCreated(address newThingAddress);
 
@@ -19,6 +20,7 @@ contract MyBiasGovernanceTokenFactory is Ownable, CloneFactory {
 
     function createGovernanceToken() external onlyOwner returns (address) {
         address clone = createClone(libraryAddress);
+        created.push(clone);
         latestCreatedGovernanceToken = clone;
 
         emit MyBiasGovernanceTokenCreated(clone);
@@ -38,5 +40,9 @@ contract MyBiasGovernanceTokenFactory is Ownable, CloneFactory {
         );
 
         emit MyBiasGovernanceTokenInitialized(nftContract, target);
+    }
+
+    function getCreated() external view returns (address[] memory) {
+        return created;
     }
 }

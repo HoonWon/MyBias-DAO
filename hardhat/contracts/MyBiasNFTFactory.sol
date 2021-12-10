@@ -9,6 +9,7 @@ import "./interface/IMyBiasBaseGovernanceToken.sol";
 contract MyBiasNFTFactory is Ownable, CloneFactory {
     address public libraryAddress;
     address public latestCreatedNFT;
+    address[] public created;
 
     event MyBiasNFTCreated(address newThingAddress);
 
@@ -30,6 +31,7 @@ contract MyBiasNFTFactory is Ownable, CloneFactory {
 
     function createNFT() external onlyOwner returns (address) {
         address clone = createClone(libraryAddress);
+        created.push(clone);
         latestCreatedNFT = clone;
 
         emit MyBiasNFTCreated(clone);
@@ -68,5 +70,9 @@ contract MyBiasNFTFactory is Ownable, CloneFactory {
             maxNum,
             maxBuyNum
         );
+    }
+
+    function getCreated() external view returns (address[] memory) {
+        return created;
     }
 }

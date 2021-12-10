@@ -1,52 +1,64 @@
 import { ethers } from 'hardhat';
 import {
   MyBiasBaseFund__factory,
+  MyBiasGovernanceTokenFactory__factory,
+  MyBiasBaseGovernanceToken__factory,
   MyBiasBaseNFT__factory,
-  MyBiasFundFactory__factory,
   MyBiasNFTFactory__factory,
+  MyBiasFundFactory__factory,
 } from '../typechain-types';
 import { writeFileSync } from 'fs';
 
-async function main() {
-  const [deployer] = await ethers.getSigners();
-  console.log('Deployer account:', deployer.address);
-  console.log('Account balance:', (await deployer.getBalance()).toString());
-  console.log();
+const main = async () => {
+  const [owner] = await ethers.getSigners();
 
-  console.log('Deploying MyBiasBaseNFT...');
-  const MyBiasBaseNFTFactory = <MyBiasBaseNFT__factory>await ethers.getContractFactory('MyBiasBaseNFT');
-  const MyBiasBaseNFT = await MyBiasBaseNFTFactory.deploy();
-  console.log("Deployed MyBiasBaseNFT's address:", MyBiasBaseNFT.address);
-  console.log();
+  // deploy
+  console.info('Deploy baseGovernanceToken...');
+  const baseGovernanceTokenFactory = <MyBiasBaseGovernanceToken__factory>(
+    await ethers.getContractFactory('MyBiasBaseGovernanceToken', owner)
+  );
+  const baseGovernanceToken = await baseGovernanceTokenFactory.deploy();
+  console.info();
 
-  console.log('Deploying MyBiasBaseFund...');
-  const MyBiasBaseFundFactory = <MyBiasBaseFund__factory>await ethers.getContractFactory('MyBiasBaseFund');
-  const MyBiasBaseFund = await MyBiasBaseFundFactory.deploy();
-  console.log("Deployed MyBiasBaseFund's address:", MyBiasBaseFund.address);
-  console.log();
+  console.info('Deploy baseNFT...');
+  const baseNftFactory = <MyBiasBaseNFT__factory>await ethers.getContractFactory('MyBiasBaseNFT', owner);
+  const baseNft = await baseNftFactory.deploy();
+  console.info();
 
-  console.log('Deploying MyBiasNFTFactory...');
-  const MyBiasNFTFactoryFactory = <MyBiasNFTFactory__factory>await ethers.getContractFactory('MyBiasNFTFactory');
-  const MyBiasNFTFactory = await MyBiasNFTFactoryFactory.deploy(deployer.address, MyBiasBaseNFT.address);
-  console.log("Deployed MyBiasNFTFactory's address:", MyBiasNFTFactory.address);
-  console.log();
+  console.info('Deploy baseFund...');
+  const baseFundFactory = <MyBiasBaseFund__factory>await ethers.getContractFactory('MyBiasBaseFund', owner);
+  const baseFund = await baseFundFactory.deploy();
+  console.info();
 
-  console.log('Deploying MyBiasFundFactory...');
-  const MyBiasFundFactoryFactory = <MyBiasFundFactory__factory>await ethers.getContractFactory('MyBiasFundFactory');
-  const MyBiasFundFactory = await MyBiasFundFactoryFactory.deploy(deployer.address, MyBiasBaseFund.address);
-  console.log("Deployed MyBiasFundFactory's address:", MyBiasFundFactory.address);
-  console.log();
+  console.info('Deploy governanceTokenFactory...');
+  const governanceTokenFactoryFactory = <MyBiasGovernanceTokenFactory__factory>(
+    await ethers.getContractFactory('MyBiasGovernanceTokenFactory', owner)
+  );
+  const governanceTokenFactory = await governanceTokenFactoryFactory.deploy(owner.address, baseGovernanceToken.address);
+  console.info();
 
-  const config = {
-    deployerAddress: deployer.address,
-    MyBiasBaseNFTAddress: MyBiasBaseNFT.address,
-    MyBiasBaseFundAddress: MyBiasBaseFund.address,
-    MyBiasNFTFactoryAddress: MyBiasNFTFactory.address,
-    MyBiasFundFactoryAddress: MyBiasFundFactory.address,
+  console.info('Deploy NFTFactory...');
+  const nftFactoryFactory = <MyBiasNFTFactory__factory>await ethers.getContractFactory('MyBiasNFTFactory', owner);
+  const nftFactory = await nftFactoryFactory.deploy(owner.address, baseNft.address);
+  console.info();
+
+  console.info('Deploy fundFactory...');
+  const fundFactoryFactory = <MyBiasFundFactory__factory>await ethers.getContractFactory('MyBiasFundFactory', owner);
+  const fundFactory = await fundFactoryFactory.deploy(owner.address, baseFund.address);
+  console.info();
+
+  const path = `${__dirname}/../config.json`;
+  const data = {
+    baseFund: baseFund.address,
+    baseGovernanceToken: baseGovernanceToken.address,
+    baseNft: baseNft.address,
+    fundFactoryAddress: fundFactory.address,
+    governanceTokenFactoryAddress: governanceTokenFactory.address,
+    nftFactoryAddress: nftFactory.address,
   };
 
-  writeFileSync(`${__dirname}/../config.json`, JSON.stringify(config));
-}
+  writeFileSync(path, JSON.stringify(data));
+};
 
 main().catch(error => {
   console.error(error);

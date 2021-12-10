@@ -217,6 +217,10 @@ contract Strategy is Ownable {
         return stakingRewards.balanceOf(address(this));
     }
 
+    function getEarned() external view returns (uint256) {
+        return stakingRewards.earned(address(this));
+    }
+
     function depositMatic() external payable onlyOwner {
         require(msg.value > 0);
 

@@ -9,6 +9,7 @@ import "./library/Ownable.sol";
 contract MyBiasFundFactory is Ownable, CloneFactory {
     address public libraryAddress;
     address public latestCreatedFund;
+    address[] public created;
 
     event MyBiasFundCreated(address newThingAddress);
 
@@ -29,6 +30,7 @@ contract MyBiasFundFactory is Ownable, CloneFactory {
 
     function createFund() external onlyOwner returns (address) {
         address clone = createClone(libraryAddress);
+        created.push(clone);
         latestCreatedFund = clone;
 
         emit MyBiasFundCreated(clone);
@@ -64,5 +66,9 @@ contract MyBiasFundFactory is Ownable, CloneFactory {
             _proposalThreshold,
             initialStrategy
         );
+    }
+
+    function getCreated() external view returns (address[] memory) {
+        return created;
     }
 }

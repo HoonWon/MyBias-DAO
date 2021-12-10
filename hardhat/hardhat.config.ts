@@ -21,24 +21,23 @@ const config: HardhatUserConfig = {
   },
   networks: {
     polygon: {
-      url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
+      url: 'https://polygon-mainnet.infura.io/v3/e247382e38d74a9d8ab06a58614dd170',
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
     polygonTest: {
       url: 'https://polygon-mumbai.g.alchemy.com/v2/ADSruID4vzTM1QYhd4JKZBXwNp_XoJR-',
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
-    hardhat: {
-      forking: {
-        blockNumber: 22267118,
-        url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
-      },
-      gas: 10000000,
-      accounts: {
-        accountsBalance: '1000000000000000000000000',
-      },
-      allowUnlimitedContractSize: true,
-    },
+    // hardhat: {
+    //   forking: {
+    //     url: 'https://polygon-mainnet.g.alchemy.com/v2/tGorwxRYuv_hlVCzvejeeGy7dfC8uCCQ',
+    //   },
+    //   gas: 10000000,
+    //   accounts: {
+    //     accountsBalance: '1000000000000000000000000',
+    //   },
+    //   allowUnlimitedContractSize: true,
+    // },
     coverage: {
       url: 'http://localhost:8555',
     },
