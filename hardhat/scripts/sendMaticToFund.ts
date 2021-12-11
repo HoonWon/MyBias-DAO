@@ -9,7 +9,7 @@ const main = async () => {
 
   console.info('send matic to fund...');
   const nft = <MyBiasBaseNFT>await ethers.getContractAt('MyBiasBaseNFT', nftAddress, owner);
-  await nft.sendMaticToFund();
+  await (await nft.sendMaticToFund()).wait();
 };
 
 main().catch(error => {
