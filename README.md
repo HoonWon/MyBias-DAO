@@ -56,7 +56,7 @@
 
 - **Need Money and Time continually for supporting**
     - Fans try to support K-POP bias like family or girl/boy friend so spend a lot of time and money autonomously
-    - However, only K-POP agencies earn money and fans are regarded as **CONSUMERS. (**K-POP fans call themselves 'ATM'.)
+    - However, only K-POP agencies earn money and fans are regarded as **CONSUMERS**. (K-POP fans call themselves 'ATM'.)
     - It's so hard to continue supporting activities since **NEED MONEY AND TIME CONTINUALLY**
 - **HARD TO PARTICIPATE IN active supporting groups**
     - Because of **language barrier and limited information**, It is hard for global fans to support their K-POP bias. Most of active supporting communities are operated only in Korea.
