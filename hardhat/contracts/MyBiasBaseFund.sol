@@ -1496,6 +1496,7 @@ abstract contract Governor is Context, ERC165, EIP712, IGovernor {
 
     bytes32 public constant BALLOT_TYPEHASH =
         keccak256("Ballot(uint256 proposalId,uint8 support)");
+    uint256 public latestProposalId;
 
     struct ProposalCore {
         Timers.BlockNumber voteStart;
@@ -1722,6 +1723,8 @@ abstract contract Governor is Context, ERC165, EIP712, IGovernor {
 
         proposal.voteStart.setDeadline(snapshot);
         proposal.voteEnd.setDeadline(deadline);
+        
+        latestProposalId = proposalId;
 
         emit ProposalCreated(
             proposalId,
