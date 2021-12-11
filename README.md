@@ -142,7 +142,7 @@ Here is a step that MYBIAS DAO works
 
 ```bash
 git clone https://github.com/HoonWon/MyBias-DAO.git
-cd hardhat/
+cd MyBias-DAO/hardhat/
 npm install
 ```
 
